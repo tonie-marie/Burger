@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="jumbotron text-center">
+    <h1>Feeling Hangry?</h1>
+    <h2>Try a Burger!</h2>
+  </div>
+</div>
+
+{{!-- list burgers yet to be eaten --}}
+<div id="burgersToEat"class="container col-xs-6">
+  <h3 class="text-center">Burgers to Eat!</h3>
+  <ul>
+    {{#each burgers}}
+      {{#unless this.eaten}}
+        <li>
+          {{this.name}}
+          <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+            <input type="hidden" name="eaten" value="true">
+            <button type="submit" class="btn btn-primary btn-sm">Time to Eat!</button>
+          </form>
+          {{> burgers/delete-burger}}
+        </li>
+      {{/unless}}
+    {{/each}}
+  </ul>
+</div>
+
+{{!-- list the burgers that have been eaten--}}
+<div id="eatenBurgers" class="container col-xs-6">
+  <h3 class="text-center">Burgers You've Eaten!</h3>
+  <ul>
+    {{#each burgers}}
+      {{#if this.eaten}}
+        <li>
+          {{this.name}}
+          <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+            <input type="hidden" name="eaten" value="false">
+            <button type="submit" class="btn btn-primary btn-sm">Save for Later!</button>
+          </form>
+          {{> burgers/delete-burger}}
+        </li>
+      {{/if}}
+    {{/each}}
+  </ul>
+</div>
+
+{{!-- add a burger to eat --}}
+<div id="addBurger" class="container col-xs-12">
+  <h3>Add a Burger To Eat</h3>
+  <form class="create-update-form" action="burgers/create" method="POST">
+    <div class="form-group">
+      <label for="bu">Burger Name:</label>
+      <input type="text" id="bu" name="name">
+    </div>
+    <div class="form-group">
+      <label for="plate">Add to plate?</label>
+      <input type="radio" name="plate" value="1" checked>Plate!<br>
+      <input type="radio" name="plate" value="0"> Eat
+    </div>
+    <button type="submit" class="btn btn-primary">Add Burger</button>
+  </form>
+</div>
